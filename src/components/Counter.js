@@ -1,11 +1,17 @@
-import React from "react";
+import { React, useState } from "react";
 
 import { useSelector, useDispatch } from "react-redux";
-import { increment, decrement } from "../redux/counter/counterSlice";
+import {
+  increment,
+  decrement,
+  incrementByAmount,
+  reset,
+} from "../redux/counter/counterSlice";
 
 import classes from "./Counter.module.css";
 
 const Counter = () => {
+  const [amount, setAmount] = useState(0);
   const countValue = useSelector((state) => state.counter.value);
   const dispatch = useDispatch();
 
@@ -19,9 +25,23 @@ const Counter = () => {
             <button onClick={() => dispatch(increment())}>Increment</button>
           </div>
           <div className={classes.counter__amount}>
-            <input type="number" />
-            <button>Increment by Amount</button>
+            <input
+              type="number"
+              value={amount}
+              onChange={(e) => setAmount(e.target.value)}
+            />
+            <button onClick={() => dispatch(incrementByAmount(amount))}>
+              Increment by Amount
+            </button>
           </div>
+          <button
+            onClick={() => {
+              dispatch(reset());
+              setAmount(0);
+            }}
+          >
+            Reset
+          </button>
         </div>
       </div>
     </div>
